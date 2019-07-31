@@ -28,6 +28,16 @@ export class PodService{
         );
     }
 
+    searchHotels(params): Observable<[]> {
+      return this.http.get<[]>('http://localhost:8080/hotels',{params:params})
+      .pipe(
+        tap((response: []) => {
+          console.log(response);
+          return response;
+        })
+        );
+    }
+
     getCities(){
         let url='http://localhost:8080/city';
         let headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});

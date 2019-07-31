@@ -1,5 +1,6 @@
 var PodModel = {
     search: {
+        title: 'search',
         userInput: {
             searchText: '',
             startDate: '',

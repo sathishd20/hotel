@@ -30,9 +30,9 @@ public interface HotelDao extends JpaRepository<Hotel, Long> {
 	List<Hotel> findAllHotels();
 	
 	 
-	@Query("SELECT m.name FROM Hotel m,  BookingDetails b WHERE upper(m.name) LIKE %:searchText% "
-			+ " or m.city = :searchText")
-    List<String> findByNameOrCity(@Param("searchText") String searchText);
+	@Query("SELECT m FROM Hotel m WHERE "
+			+ " m.city = :searchText")
+    List<Hotel> findByNameOrCity(@Param("searchText") String searchText);
 	
 	@Query(
 	  value = "select * from hotels where hotelid in (" + 

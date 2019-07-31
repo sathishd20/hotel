@@ -19,11 +19,11 @@ public class HotelController {
 
 	@Autowired
     private HotelDao hotelDao;
-
-	@GetMapping(path = "/hotels/{searchText}")
-	public List<String> getHotels(@PathVariable String searchText) {
-		//Iterable<Hotel> all = hotelDao.findByNameOrCity(searchText, searchText);
-		List<String> hotels = hotelDao.findByNameOrCity(searchText);
+	
+	@GetMapping(path = "/hotels")
+	@CrossOrigin(exposedHeaders="Access-Control-Allow-Origin")
+	public List<Hotel> getHotels(@RequestParam String searchText) {
+		List<Hotel> hotels = hotelDao.findByNameOrCity(searchText);
 		if(hotels.size() == 0) {
 			throw new ResponseStatusException(
 			           HttpStatus.NOT_FOUND, "No Hotels are avaiable");
@@ -37,7 +37,7 @@ public class HotelController {
 		List<String> hotels = "".equalsIgnoreCase(name) ? hotelDao.getAllCities() : hotelDao.findCities(name);
 		if(hotels.size() == 0) {
 			throw new ResponseStatusException(
-			           HttpStatus.NOT_FOUND, "No Hotels are avaiable");
+			           HttpStatus.NOT_FOUND, "No City are avaiable");
 		}
 		return hotels;
 	}

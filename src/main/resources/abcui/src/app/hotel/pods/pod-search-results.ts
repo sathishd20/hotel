@@ -1,5 +1,5 @@
 import { PodService } from './PodService';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import PodModel from './PodModel';
 import { Observable } from 'rxjs';
 
@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
   selector: 'pod-search-results',
   template: `
   <div>
+    
     <mat-card class="card-picture" *ngFor="let hotel of (hotels | async) ">
         <mat-card-title>{{hotel.name}}</mat-card-title>
         <mat-card-subtitle>{{hotel.city}}</mat-card-subtitle>
@@ -55,47 +56,25 @@ import { Observable } from 'rxjs';
 })
 export class PodSearchResults {
 
+  private _searchdata: any;
+
+  @Input() set searchdata(value: any) {
+    if(!value)  return;
+    this._searchdata = value;
+    console.log('got it',value);
+    this.hotels = this.podService.searchHotels(this.searchdata);
+  }
+
+  get searchdata(): any {
+      return this._searchdata;
+  }
+
   hotels: Observable<[]>;
 
   constructor(private podService: PodService) { }
 
   ngOnInit(){
-    this.hotels = this.podService.getHotels();
+    
   }
-
-    hotels1 = [
-        {
-          id: 1,
-          name: 'A natural view',
-          city: 'city',
-          details: 'The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan',
-          img: 'assets/room.png'
-        },
-        {
-          id: 2,
-          title: 'Newspaper',
-          img: 'https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/LTLE4QGRVQ.jpg'
-        },
-        {
-          id: 3,
-          title: 'Favourite pizza',
-          img: 'https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/R926LU1YEA.jpg'
-        },
-        {
-          id: 4,
-          title: 'Abstract design',
-          img: 'https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/U9PP3KXXY2.jpg'
-        },
-        {
-          id: 5,
-          title: 'Tech',
-          img: 'https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/NO9CN3QYR3.jpg'
-        },
-        {
-          id: 6,
-          title: 'Nightlife',
-          img: 'https://d2lm6fxwu08ot6.cloudfront.net/img-thumbs/960w/X1UK6NLGRU.jpg'
-        },
-      ];
 
 }

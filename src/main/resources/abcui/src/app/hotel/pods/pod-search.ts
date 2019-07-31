@@ -1,5 +1,5 @@
 import { PodService } from './PodService';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import PodModel from './PodModel';
 import { Observable } from 'rxjs';
@@ -96,6 +96,7 @@ import {switchMap, debounceTime} from 'rxjs/operators';
 export class PodSearch {
 
   options: Observable<[]>;
+  @Output() messageEvent = new EventEmitter<SearchModel>();
 
   roomType = PodModel.search.roomType;
 
@@ -148,13 +149,24 @@ export class PodSearch {
     startDate= new Date( startDate.getTime() + Math.abs(startDate.getTimezoneOffset()*60000) );
     endDate= new Date( endDate.getTime() + Math.abs(endDate.getTimezoneOffset()*60000) );
 
-    PodModel.search.userInput.searchText = searchText;
-    PodModel.search.userInput.startDate = startDate.toISOString().substr(0,10);
-    PodModel.search.userInput.endDate = endDate.toISOString().substr(0,10);
-    PodModel.search.userInput.beds = beds;
+    let searchdata : SearchModel= {
+      searchText: searchText,
+      startDate: startDate.toISOString().substr(0,10),
+      endDate: endDate.toISOString().substr(0,10),
+      beds: beds
+    }
 
-    console.log(PodModel.search.userInput);
-    this.podService.getHotels();
+    console.log(searchdata);
+    //this.podService.getHotels();
+    this.messageEvent.emit(searchdata);
   }
 
+}
+
+
+export interface SearchModel {
+  searchText: string,
+  startDate: string,
+  endDate: string,
+  beds: string
 }
