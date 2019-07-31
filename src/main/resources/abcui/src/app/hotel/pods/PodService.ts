@@ -10,7 +10,7 @@ export class PodService{
     constructor(private http: HttpClient) { }
 
     search(): Observable<[]> {
-      return this.http.get<[]>('http://localhost:8080/city')
+      return this.http.get<[]>('/city')
       .pipe(
         tap((response: []) => {
           return response;
@@ -19,7 +19,7 @@ export class PodService{
     }
 
     getHotels(): Observable<[]> {
-      return this.http.get<[]>('http://localhost:8080/hotels/all')
+      return this.http.get<[]>('/hotels/all')
       .pipe(
         tap((response: []) => {
           console.log(response);
@@ -29,7 +29,7 @@ export class PodService{
     }
 
     searchHotels(params): Observable<[]> {
-      return this.http.get<[]>('http://localhost:8080/hotels',{params:params})
+      return this.http.get<[]>('/hotels',{params:params})
       .pipe(
         tap((response: []) => {
           console.log(response);
@@ -39,7 +39,7 @@ export class PodService{
     }
 
     getCities(){
-        let url='http://localhost:8080/city';
+        let url='/city';
         let headers = new HttpHeaders({'Content-Type':'application/json; charset=utf-8'});
  
         this.http.get<[]>(url,{headers : headers}).subscribe(
